@@ -1,0 +1,257 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 588
+  ClientWidth = 425
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object TabControlMain: TTabControl
+    Align = Client
+    Size.Width = 425.000000000000000000
+    Size.Height = 588.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 0
+    TabOrder = 0
+    TabPosition = Bottom
+    Sizes = (
+      425s
+      563s)
+    object TabItemNewOil: TTabItem
+      CustomIcon = <
+        item
+        end>
+      TextSettings.Font.Family = 'Roboto'
+      StyledSettings = [Size, Style, FontColor]
+      IsSelected = True
+      Size.Width = 105.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'New Oil Change'
+      object GridPanelLayout1: TGridPanelLayout
+        Align = Client
+        Size.Width = 425.000000000000000000
+        Size.Height = 515.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        ColumnCollection = <
+          item
+            Value = 50.000000000000000000
+          end
+          item
+            Value = 50.000000000000000000
+          end>
+        ControlCollection = <
+          item
+            Column = 0
+            Control = LbOdometer
+            Row = 0
+          end
+          item
+            Column = 1
+            Control = EdtOdometer
+            Row = 0
+          end
+          item
+            Column = 0
+            Control = LbCost
+            Row = 1
+          end
+          item
+            Column = 1
+            Control = EdtCost
+            Row = 1
+          end
+          item
+            Column = 0
+            Control = LbDate
+            Row = 2
+          end
+          item
+            Column = 1
+            Control = EdtDateOilChange
+            Row = 2
+          end
+          item
+            Column = 0
+            Control = LbQtQuantity
+            Row = 3
+          end
+          item
+            Column = 1
+            Control = EdtQtQuantity
+            Row = 3
+          end>
+        RowCollection = <
+          item
+            Value = 25.000010528048840000
+          end
+          item
+            Value = 25.000010286672320000
+          end
+          item
+            Value = 25.000005961608720000
+          end
+          item
+            Value = 24.999973223670120000
+          end>
+        object EdtOdometer: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Center
+          TabOrder = 2
+          TextSettings.Font.Family = 'Roboto'
+          Size.Width = 120.000000000000000000
+          Size.Height = 20.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Odometer'
+          StyledSettings = [Size, Style, FontColor]
+        end
+        object LbOdometer: TLabel
+          Align = Center
+          AutoSize = True
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Roboto'
+          Text = 'Last oil change odometer'
+          TabOrder = 6
+        end
+        object LbCost: TLabel
+          Align = Center
+          AutoSize = True
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 120.000000000000000000
+          Size.Height = 15.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Roboto'
+          Text = 'Oil quart cost'
+          TabOrder = 4
+        end
+        object EdtCost: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Center
+          TabOrder = 1
+          TextSettings.Font.Family = 'Roboto'
+          Size.Width = 120.000000000000000000
+          Size.Height = 20.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Qt cost'
+          StyledSettings = [Size, Style, FontColor]
+        end
+        object LbDate: TLabel
+          Align = Center
+          AutoSize = True
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 120.000000000000000000
+          Size.Height = 15.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Roboto'
+          Text = 'Change date'
+          TabOrder = 5
+        end
+        object EdtDateOilChange: TDateEdit
+          Date = 45194.000000000000000000
+          Align = Center
+          Size.Width = 120.000000000000000000
+          Size.Height = 20.000000000000000000
+          Size.PlatformDefault = False
+          StyledSettings = [Size, Style, FontColor]
+          TabOrder = 7
+          TextSettings.Font.Family = 'Roboto'
+        end
+        object LbQtQuantity: TLabel
+          Align = Center
+          AutoSize = True
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 120.000000000000000000
+          Size.Height = 15.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Roboto'
+          Text = 'How many oil Qt'
+          TabOrder = 3
+        end
+        object EdtQtQuantity: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Center
+          TabOrder = 0
+          TextSettings.Font.Family = 'Roboto'
+          Size.Width = 120.000000000000000000
+          Size.Height = 20.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = '0'
+          StyledSettings = [Size, Style, FontColor]
+        end
+      end
+      object GridPanelLayout2: TGridPanelLayout
+        Align = Bottom
+        Position.Y = 515.000000000000000000
+        Size.Width = 425.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        ColumnCollection = <
+          item
+            Value = 20.000000000000000000
+          end
+          item
+            Value = 80.000000000000000000
+          end>
+        ControlCollection = <
+          item
+            Column = 0
+            Control = BtnFillLevel
+            Row = 0
+          end
+          item
+            Column = 1
+            Control = BtnSaveOil
+            Row = 0
+          end>
+        RowCollection = <
+          item
+            Value = 100.000000000000000000
+          end>
+        object BtnFillLevel: TButton
+          Align = Client
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 85.000000000000000000
+          Size.Height = 48.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Fill Oil Level '
+          TextSettings.Font.Family = 'Roboto'
+          OnClick = BtnFillLevelClick
+        end
+        object BtnSaveOil: TButton
+          Align = Client
+          StyledSettings = [Size, Style, FontColor]
+          Size.Width = 340.000000000000000000
+          Size.Height = 48.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Register new oil change'
+          TextSettings.Font.Family = 'Roboto'
+          OnClick = BtnSaveOilClick
+        end
+      end
+      object EdtHiddenOilFillType: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Center
+        TabOrder = 1
+        TextSettings.Font.Family = 'Roboto'
+        Size.Width = 120.000000000000000000
+        Size.Height = 20.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Qt Cost'
+        StyledSettings = [Size, Style, FontColor]
+        Visible = False
+      end
+    end
+  end
+end

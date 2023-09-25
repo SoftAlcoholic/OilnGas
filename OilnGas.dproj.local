@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/09/25 08:47:06.000.979,=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/09/25 10:06:42.000.514,C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGas.fmx</Transaction>
+    <Transaction>2023/09/25 10:06:42.000.514,C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGas.pas</Transaction>
+    <Transaction>2023/09/25 10:07:33.000.608,C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGas.pas=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGasMain.pas</Transaction>
+    <Transaction>2023/09/25 10:07:33.000.608,C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGas.fmx=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGasMain.fmx</Transaction>
+    <Transaction>2023/09/25 10:08:22.000.490,C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Usuario 1\Documents\Embarcadero\Studio\Projects\OilnGas.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
