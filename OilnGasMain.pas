@@ -31,15 +31,14 @@ type
     EdtHiddenOilFillType: TEdit;
     TabItem1: TTabItem;
     ListView1: TListView;
-    BindSourceDB1: TBindSourceDB;
-    BindingsList1: TBindingsList;
-    LinkListControlToField1: TLinkListControlToField;
     procedure BtnFillLevelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BtnSaveOilClick(Sender: TObject);
 
   private
     procedure OilFormNameLoader;
+    function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
+      Cost, OilQuantity: Double; FillType: string): Boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -52,7 +51,7 @@ implementation
 
 {$R *.fmx}
 
-uses DmONG, FireDAC.Comp.Client, FireDAC.Stan.Param;
+uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param;
 
 procedure TFrmONG.BtnFillLevelClick(Sender: TObject);
 begin
@@ -60,79 +59,121 @@ begin
 end;
 
 procedure TFrmONG.BtnSaveOilClick(Sender: TObject);
+var
+  Distance: Double;
+  ChangeDate: TDate;
+  Cost: Double;
+  OilQuantity: Double;
+  FillType: string;
 begin
-  if EdtHiddenOilFillType.text = 'oil change' then
-    ShowMessage('Oil change. Odometer: ' + EdtOdometer.text + ' cost per qt: ' +
-      EdtCost.text + ' oil change date: ' + EdtDateOilChange.text +
-      ' quantity: ' + EdtQtQuantity.text + 'Qt.')
-  else
-    ShowMessage('Oil refill. Odometer: ' + EdtOdometer.text + ' cost per qt: ' +
-      EdtCost.text + ' oil change date: ' + EdtDateOilChange.text +
-      ' quantity: ' + EdtQtQuantity.text + 'Qt.')
+  // Retrieve input values from form's controls )
+  Distance := StrToFloat(EdtOdometer.Text);
+  ChangeDate := StrToDate(EdtDateOilChange.Text);
+  Cost := StrToFloat(EdtCost.Text);
+  OilQuantity := StrToFloat(EdtQtQuantity.Text);
+  FillType := EdtHiddenOilFillType.Text;
 
+  // Call the SaveOilChangeData function and check the result
+  if SaveOilChangeData(Distance, ChangeDate, Cost, OilQuantity, FillType) then
+  begin
+    // If the save was successful, display a success message
+    if FillType = 'oil change' then
+      ShowMessage('Oil change successfully saved. Odometer: ' +
+        FloatToStr(Distance) + ' cost per qt: ' + FloatToStr(Cost) +
+        ' oil change date: ' + DateToStr(ChangeDate) + ' quantity: ' +
+        FloatToStr(OilQuantity) + 'Qt.')
+    else
+      ShowMessage('Oil refill successfully saved. Odometer: ' +
+        FloatToStr(Distance) + ' cost per qt: ' + FloatToStr(Cost) +
+        ' oil change date: ' + DateToStr(ChangeDate) + ' quantity: ' +
+        FloatToStr(OilQuantity) + 'Qt.');
+  end
+  else
+  begin
+    // If there was an error during save, display an error message
+    ShowMessage
+      ('Error: Failed to save data. Please check your input and try again.');
+  end;
 end;
 
 procedure TFrmONG.FormCreate(Sender: TObject);
 begin
-  EdtHiddenOilFillType.text := 'oil change';
-  EdtDateOilChange.text := '';
+  EdtHiddenOilFillType.Text := 'oil change';
+  EdtDateOilChange.Text := '';
 end;
 
 procedure TFrmONG.OilFormNameLoader();
 begin
-  if BtnFillLevel.text <> 'Cancel' then
+  if BtnFillLevel.Text <> 'Cancel' then
   begin
-    BtnFillLevel.text := 'Cancel';
-    BtnSaveOil.text := 'Register oil level refill';
-    EdtHiddenOilFillType.text := 'oil refill';
-    LbOdometer.text := 'Refill odometer';
-    EdtOdometer.text := '';
-    EdtCost.text := '';
-    EdtDateOilChange.text := '';
-    EdtQtQuantity.text := '';
+    BtnFillLevel.Text := 'Cancel';
+    BtnSaveOil.Text := 'Register oil level refill';
+    EdtHiddenOilFillType.Text := 'oil refill';
+    LbOdometer.Text := 'Refill odometer';
+    EdtOdometer.Text := '';
+    EdtCost.Text := '';
+    EdtDateOilChange.Text := '';
+    EdtQtQuantity.Text := '';
   end
   else
   begin
-    BtnFillLevel.text := 'Fill oil level';
-    BtnSaveOil.text := 'Register new oil change';
-    EdtHiddenOilFillType.text := 'oil change';
-    LbOdometer.text := 'Last oil change odometer';
-    EdtOdometer.text := '';
-    EdtCost.text := '';
-    EdtDateOilChange.text := '';
-    EdtQtQuantity.text := '';
+    BtnFillLevel.Text := 'Fill oil level';
+    BtnSaveOil.Text := 'Register new oil change';
+    EdtHiddenOilFillType.Text := 'oil change';
+    LbOdometer.Text := 'Last oil change odometer';
+    EdtOdometer.Text := '';
+    EdtCost.Text := '';
+    EdtDateOilChange.Text := '';
+    EdtQtQuantity.Text := '';
   end;
 end;
 
-function SaveOilChangeData(Odometer: Integer; CostPerQt: Double;
-  ChangeDate: TDateTime; QuartsTotal: Double): Boolean;
+function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
+  Cost: Double; OilQuantity: Double; FillType: string): Boolean;
 var
   Query: TFDQuery;
+  Transaction: TFDTransaction;
 begin
   Result := False; // Initialize the result as false by default
 
   Query := TFDQuery.Create(nil);
+  Transaction := TFDTransaction.Create(nil);
 
   try
-    // Use the existing connection from your Data Module
+    // Use the existing connection and associate it with the transaction
     Query.Connection := DataModuleONG.Sqlite_demoConnection;
+    Query.Transaction := Transaction;
+    Transaction.Connection := DataModuleONG.Sqlite_demoConnection;
 
-    // Prepare the SQL query for insertion
-    Query.SQL.text :=
-      'INSERT INTO CambiosAceite (Odometro, CostoPorQt, Fecha, CuartosTotales) VALUES (:Odometer, :CostPerQt, :ChangeDate, :QuartsTotal)';
-    Query.ParamByName('Odometer').AsInteger := Odometer;
-    Query.ParamByName('CostPerQt').AsFloat := CostPerQt;
-    Query.ParamByName('ChangeDate').AsDateTime := ChangeDate;
-    Query.ParamByName('QuartsTotal').AsFloat := QuartsTotal;
+    // Start the transaction
+    Transaction.StartTransaction;
 
-    // Execute the query
-    Query.ExecSQL;
+    try
+      // Prepare the SQL query for insertion
+      Query.SQL.Text :=
+        'INSERT INTO Oil (distance, date, cost, oil_quantity, fill_type) VALUES (:Distance, :ChangeDate, :Cost, :OilQuantity, :FillType)';
+      Query.ParamByName('Distance').AsFloat := Distance;
+      Query.ParamByName('ChangeDate').AsDate := ChangeDate;
+      Query.ParamByName('Cost').AsFloat := Cost;
+      Query.ParamByName('OilQuantity').AsFloat := OilQuantity;
+      Query.ParamByName('FillType').AsString := FillType;
 
-    // The query was successful
-    Result := True;
+      // Execute the query
+      Query.ExecSQL;
+
+      // Commit the transaction if everything was successful
+      Transaction.Commit;
+      Result := True;
+    except
+      // If there was an error during the transaction, roll it back
+      Transaction.Rollback;
+      raise; // Rethrow the exception to propagate it to the caller
+    end;
   finally
     Query.Free;
+    Transaction.Free;
   end;
 end;
+
 
 end.
