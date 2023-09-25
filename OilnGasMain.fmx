@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FrmONG: TFrmONG
   Left = 0
   Top = 0
   Caption = 'Form1'
@@ -19,7 +19,9 @@ object Form1: TForm1
     TabPosition = Bottom
     Sizes = (
       425s
-      563s)
+      562s
+      425s
+      562s)
     object TabItemNewOil: TTabItem
       CustomIcon = <
         item
@@ -28,7 +30,7 @@ object Form1: TForm1
       StyledSettings = [Size, Style, FontColor]
       IsSelected = True
       Size.Width = 105.000000000000000000
-      Size.Height = 25.000000000000000000
+      Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
@@ -38,7 +40,7 @@ object Form1: TForm1
       object GridPanelLayout1: TGridPanelLayout
         Align = Client
         Size.Width = 425.000000000000000000
-        Size.Height = 515.000000000000000000
+        Size.Height = 514.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         ColumnCollection = <
@@ -192,7 +194,7 @@ object Form1: TForm1
       end
       object GridPanelLayout2: TGridPanelLayout
         Align = Bottom
-        Position.Y = 515.000000000000000000
+        Position.Y = 514.000000000000000000
         Size.Width = 425.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
@@ -254,6 +256,49 @@ object Form1: TForm1
         StyledSettings = [Size, Style, FontColor]
         Visible = False
       end
+    end
+    object TabItem1: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 69.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'TabItem1'
+      object ListView1: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 425.000000000000000000
+        Size.Height = 562.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = DataModuleONG.OilTable
+    ScopeMappings = <>
+    Left = 392
+    Top = 8
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 388
+    Top = 53
+    object LinkListControlToField1: TLinkListControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      Control = ListView1
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
     end
   end
 end

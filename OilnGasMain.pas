@@ -7,10 +7,13 @@ uses
   System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Controls.Presentation, FMX.Layouts, FMX.TabControl,
-  FMX.DateTimeCtrls;
+  FMX.DateTimeCtrls, FMX.ListView.Types, FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base, System.Rtti, System.Bindings.Outputs,
+  FMX.Bind.Editors, Data.Bind.EngExt, FMX.Bind.DBEngExt, Data.Bind.Components,
+  Data.Bind.DBScope, FMX.ListView;
 
 type
-  TForm1 = class(TForm)
+  TFrmONG = class(TForm)
     TabControlMain: TTabControl;
     TabItemNewOil: TTabItem;
     GridPanelLayout1: TGridPanelLayout;
@@ -26,6 +29,11 @@ type
     BtnFillLevel: TButton;
     GridPanelLayout2: TGridPanelLayout;
     EdtHiddenOilFillType: TEdit;
+    TabItem1: TTabItem;
+    ListView1: TListView;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkListControlToField1: TLinkListControlToField;
     procedure BtnFillLevelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BtnSaveOilClick(Sender: TObject);
@@ -38,57 +46,92 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FrmONG: TFrmONG;
 
 implementation
 
 {$R *.fmx}
 
-uses DmONG;
+uses DmONG, FireDAC.Comp.Client, FireDAC.Stan.Param;
 
-procedure TForm1.BtnFillLevelClick(Sender: TObject);
+procedure TFrmONG.BtnFillLevelClick(Sender: TObject);
 begin
   OilFormNameLoader;
 end;
 
-procedure TForm1.BtnSaveOilClick(Sender: TObject);
+procedure TFrmONG.BtnSaveOilClick(Sender: TObject);
 begin
-  if EdtHiddenOilFillType.text='oil change' then
-    ShowMessage('Oil change. Odometer: ' + EdtOdometer.Text + ' cost per qt: ' + EdtCost.Text + ' oil change date: ' + EdtDateOilChange.Text + ' quantity: ' + EdtQtQuantity.Text + 'Qt.')
+  if EdtHiddenOilFillType.text = 'oil change' then
+    ShowMessage('Oil change. Odometer: ' + EdtOdometer.text + ' cost per qt: ' +
+      EdtCost.text + ' oil change date: ' + EdtDateOilChange.text +
+      ' quantity: ' + EdtQtQuantity.text + 'Qt.')
   else
-    ShowMessage('Oil refill. Odometer: ' + EdtOdometer.Text + ' cost per qt: ' + EdtCost.Text + ' oil change date: ' + EdtDateOilChange.Text + ' quantity: ' + EdtQtQuantity.Text + 'Qt.')
+    ShowMessage('Oil refill. Odometer: ' + EdtOdometer.text + ' cost per qt: ' +
+      EdtCost.text + ' oil change date: ' + EdtDateOilChange.text +
+      ' quantity: ' + EdtQtQuantity.text + 'Qt.')
 
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFrmONG.FormCreate(Sender: TObject);
 begin
-  EdtHiddenOilFillType.Text := 'oil change';
-  EdtDateOilChange.Text := '';
+  EdtHiddenOilFillType.text := 'oil change';
+  EdtDateOilChange.text := '';
 end;
 
-procedure TForm1.OilFormNameLoader();
+procedure TFrmONG.OilFormNameLoader();
 begin
-  if BtnFillLevel.Text <> 'Cancel' then
+  if BtnFillLevel.text <> 'Cancel' then
   begin
-    BtnFillLevel.Text := 'Cancel';
-    BtnSaveOil.Text := 'Register oil level refill';
-    EdtHiddenOilFillType.Text := 'oil refill';
-    LbOdometer.Text := 'Refill odometer';
-    EdtOdometer.Text := '';
-    EdtCost.Text := '';
-    EdtDateOilChange.Text := '';
-    EdtQtQuantity.Text := '';
+    BtnFillLevel.text := 'Cancel';
+    BtnSaveOil.text := 'Register oil level refill';
+    EdtHiddenOilFillType.text := 'oil refill';
+    LbOdometer.text := 'Refill odometer';
+    EdtOdometer.text := '';
+    EdtCost.text := '';
+    EdtDateOilChange.text := '';
+    EdtQtQuantity.text := '';
   end
   else
   begin
-    BtnFillLevel.Text := 'Fill oil level';
-    BtnSaveOil.Text := 'Register new oil change';
-    EdtHiddenOilFillType.Text := 'oil change';
-    LbOdometer.Text := 'Last oil change odometer';
-    EdtOdometer.Text := '';
-    EdtCost.Text := '';
-    EdtDateOilChange.Text := '';
-    EdtQtQuantity.Text := '';
+    BtnFillLevel.text := 'Fill oil level';
+    BtnSaveOil.text := 'Register new oil change';
+    EdtHiddenOilFillType.text := 'oil change';
+    LbOdometer.text := 'Last oil change odometer';
+    EdtOdometer.text := '';
+    EdtCost.text := '';
+    EdtDateOilChange.text := '';
+    EdtQtQuantity.text := '';
+  end;
+end;
+
+function SaveOilChangeData(Odometer: Integer; CostPerQt: Double;
+  ChangeDate: TDateTime; QuartsTotal: Double): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Result := False; // Initialize the result as false by default
+
+  Query := TFDQuery.Create(nil);
+
+  try
+    // Use the existing connection from your Data Module
+    Query.Connection := DataModuleONG.Sqlite_demoConnection;
+
+    // Prepare the SQL query for insertion
+    Query.SQL.text :=
+      'INSERT INTO CambiosAceite (Odometro, CostoPorQt, Fecha, CuartosTotales) VALUES (:Odometer, :CostPerQt, :ChangeDate, :QuartsTotal)';
+    Query.ParamByName('Odometer').AsInteger := Odometer;
+    Query.ParamByName('CostPerQt').AsFloat := CostPerQt;
+    Query.ParamByName('ChangeDate').AsDateTime := ChangeDate;
+    Query.ParamByName('QuartsTotal').AsFloat := QuartsTotal;
+
+    // Execute the query
+    Query.ExecSQL;
+
+    // The query was successful
+    Result := True;
+  finally
+    Query.Free;
   end;
 end;
 
