@@ -3,12 +3,14 @@ program OilnGas;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  OilnGasMain in 'OilnGasMain.pas' {Form1};
+  OilnGasMain in 'OilnGasMain.pas' {FrmONG},
+  DmONG in 'DmONG.pas' {DataModuleONG: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFrmONG, FrmONG);
+  Application.CreateForm(TDataModuleONG, DataModuleONG);
   Application.Run;
 end.

@@ -128,8 +128,8 @@ begin
   end;
 end;
 
-function TFrmONG.SaveOilChangeData(Distance: Double; ChangeDate: TDate; Cost: Double;
-  OilQuantity: Double; FillType: string): Boolean;
+function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
+  Cost: Double; OilQuantity: Double; FillType: string): Boolean;
 var
   Query: TFDQuery;
   Transaction: TFDTransaction;
@@ -174,5 +174,6 @@ begin
     Transaction.Free;
   end;
 end;
+
 
 end.
