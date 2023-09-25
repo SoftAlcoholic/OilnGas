@@ -1,65 +1,58 @@
 ﻿[GridPanelLayout2]
-Coordinates=126,324,118,36
+Coordinates=126,324,102,33
 
 [EdtDateOilChange]
-Coordinates=326,188,138,58
+Coordinates=326,188,115,51
 
 [TabControlMain]
-Coordinates=10,324,106,36
+Coordinates=10,324,92,33
 
 [LbOdometer]
-Coordinates=127,10,86,58
+Coordinates=127,10,75,51
 
 [BtnFillLevel]
-Coordinates=99,256,82,58
+Coordinates=99,256,72,51
 
 [LbDate]
-Coordinates=191,256,56,58
+Coordinates=191,256,49,51
 
 [EdtOdometer]
-Coordinates=462,10,91,58
+Coordinates=462,10,79,51
 
 [BtnSaveOil]
-Coordinates=10,256,79,58
+Coordinates=10,256,69,51
 
 [LbCost]
-Coordinates=397,10,55,58
+Coordinates=397,10,49,51
 
 [EdtHiddenOilFillType]
-Coordinates=180,188,136,58
+Coordinates=180,188,118,51
 
 [LbQtQuantity]
-Coordinates=80,188,90,58
+Coordinates=80,188,80,51
 
 [GridPanelLayout1]
-Coordinates=449,256,118,36
+Coordinates=449,256,102,33
 
 [EdtCost]
-Coordinates=10,188,60,58
+Coordinates=10,188,53,51
 
 [EdtQtQuantity]
-Coordinates=474,188,95,58
+Coordinates=474,188,84,51
 
 [TabItemNewOil]
-Coordinates=336,256,103,36
+Coordinates=336,256,88,33
 
 [TabItem1]
-Coordinates=257,256,69,36
+Coordinates=257,256,59,33
 
 [DataModuleONG.OilTable]
-Coordinates=223,10,164,36
-Visible=False
+Coordinates=230,10,139,159
 
 [ListView1]
-Coordinates=10,10,107,168
+Coordinates=10,10,89,141
 Visible=True
 
 []
-Coordinates=493,166,91,36
-
-[BindSourceDB1]
-Coordinates=223,10,151,80
-
-[BindingsList1]
-Coordinates=136,109,91,36
+Coordinates=136,109,82,33
 
