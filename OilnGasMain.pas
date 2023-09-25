@@ -44,6 +44,8 @@ implementation
 
 {$R *.fmx}
 
+uses DmONG;
+
 procedure TForm1.BtnFillLevelClick(Sender: TObject);
 begin
   OilFormNameLoader;
