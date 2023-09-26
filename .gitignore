@@ -5,6 +5,8 @@ __history/OilnGasMain.fmx.~1~
 *.dcu
 *.~2~
 *.~3~
+*.identcache
+*
 __history/OilnGasMain.fmx.~4~
 __history/OilnGasMain.pas.~4~
 ongdb.s3db-journal
