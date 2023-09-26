@@ -124,12 +124,14 @@ object FrmONG: TFrmONG
           Align = Center
           AutoSize = True
           StyledSettings = [Size, Style, FontColor]
+          HitTest = True
           Size.Width = 120.000000000000000000
           Size.Height = 29.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Family = 'Roboto'
           Text = 'Last oil change odometer'
           TabOrder = 6
+          OnClick = LbOdometerClick
         end
         object LbCost: TLabel
           Align = Center

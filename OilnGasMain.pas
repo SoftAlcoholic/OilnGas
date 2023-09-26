@@ -37,11 +37,14 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BtnSaveOilClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LbOdometerClick(Sender: TObject);
   private
     procedure OilFormNameLoader;
     function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
       Cost: Double; OilQuantity: Double; FillType: string): Boolean;
     procedure ComboBoxVehiclesItemClick(Sender: TObject);
+    procedure AddNewVehicle;
+    procedure SelectExistingVehicle;
   public
     { Public declarations }
   end;
@@ -53,7 +56,7 @@ implementation
 
 {$R *.fmx}
 
-uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FrmAddvehicles;
+uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FrmAddVeh;
 
 procedure TFrmONG.BtnFillLevelClick(Sender: TObject);
 begin
@@ -103,22 +106,47 @@ begin
   // Check if the "Add Vehicle" item was clicked
   if ComboBoxVehicles.ItemIndex = 0 then
   begin
-    // Open the form to add a vehicle
-    with TfrmAddVehicle.Create(nil) do
-      try
-        // Display the modal form
-        if ShowModal = mrOK then
-        begin
-          // If the add vehicle form was completed successfully,
-        end;
-      finally
-        Free;
+    AddNewVehicle;
+  end
+  else
+  begin
+    SelectExistingVehicle;
+  end;
+end;
+
+procedure TFrmONG.AddNewVehicle;
+ begin
+ (*
+       try
+      FrmVehiclesadd := TFrmVehiclesadd.Create(Application);
+      with FrmVehiclesadd do
+      begin
+
+{$IFDEF ANDROID}
+        Show;
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+        ShowModal;
+{$ENDIF}
       end;
+    finally
+      FreeAndNil(FrmVehiclesadd);
+    end;
+
   end
   else
   begin
     // Mmanage existing vehicles
+  *)
   end;
+
+procedure TFrmONG.SelectExistingVehicle;
+begin
+  // Handle other item clicks (e.g., selecting an existing vehicle)
+  // You can add code here to perform actions for selecting an existing vehicle.
+  // Example:
+  // SelectedVehicleID := Integer(ComboBoxVehicles.Items.Objects[ComboBoxVehicles.ItemIndex]);
+  // LoadDataForSelectedVehicle(SelectedVehicleID);
 end;
 
 procedure TFrmONG.FormCreate(Sender: TObject);
@@ -155,6 +183,11 @@ begin
     // Free
     VehicleQuery.Free;
   end;
+end;
+
+procedure TFrmONG.LbOdometerClick(Sender: TObject);
+begin
+  AddNewVehicle;
 end;
 
 procedure TFrmONG.OilFormNameLoader();
