@@ -15,7 +15,7 @@ uses
 type
   TFrmONG = class(TForm)
     TabControlMain: TTabControl;
-    TabItemNewOil: TTabItem;
+    TbNewOli: TTabItem;
     GridPanelLayout1: TGridPanelLayout;
     BtnSaveOil: TButton;
     EdtOdometer: TEdit;
@@ -29,20 +29,41 @@ type
     BtnFillLevel: TButton;
     GridPanelLayout2: TGridPanelLayout;
     EdtHiddenOilFillType: TEdit;
-    TabItem1: TTabItem;
+    Tb: TTabItem;
     ListWiewOilChanges: TListView;
-    ComboBoxVehicles: TComboBox;
-    ListBoxItemAddVeh: TListBoxItem;
+    TbVehicle: TTabItem;
+    SBtnVehicle: TSpeedButton;
+    PnOli: TPanel;
+    SBtnCancel: TSpeedButton;
+    Panel1: TPanel;
+    SBtnNewVehicle: TSpeedButton;
+    TbFormVehicle: TTabItem;
+    Panel2: TPanel;
+    SpeedButton1: TSpeedButton;
+    GridPanelLayout3: TGridPanelLayout;
+    Edit1: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Label3: TLabel;
+    DateEdit1: TDateEdit;
+    Label4: TLabel;
+    Edit3: TEdit;
+    GridPanelLayout4: TGridPanelLayout;
+    Button2: TButton;
     procedure BtnFillLevelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BtnSaveOilClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure LbOdometerClick(Sender: TObject);
+    procedure SBtnVehicleClick(Sender: TObject);
+    procedure SBtnCancelClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure SBtnNewVehicleClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     procedure OilFormNameLoader;
     function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
       Cost: Double; OilQuantity: Double; FillType: string): Boolean;
-    procedure ComboBoxVehiclesItemClick(Sender: TObject);
     procedure AddNewVehicle;
     procedure SelectExistingVehicle;
   public
@@ -56,7 +77,7 @@ implementation
 
 {$R *.fmx}
 
-uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FrmAddVeh;
+uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param;
 
 procedure TFrmONG.BtnFillLevelClick(Sender: TObject);
 begin
@@ -101,44 +122,31 @@ begin
   end;
 end;
 
-procedure TFrmONG.ComboBoxVehiclesItemClick(Sender: TObject);
-begin
-  // Check if the "Add Vehicle" item was clicked
-  if ComboBoxVehicles.ItemIndex = 0 then
-  begin
-    AddNewVehicle;
-  end
-  else
-  begin
-    SelectExistingVehicle;
-  end;
-end;
-
 procedure TFrmONG.AddNewVehicle;
- begin
- (*
-       try
-      FrmVehiclesadd := TFrmVehiclesadd.Create(Application);
-      with FrmVehiclesadd do
-      begin
+begin
+  (*
+    try
+    FrmVehiclesadd := TFrmVehiclesadd.Create(Application);
+    with FrmVehiclesadd do
+    begin
 
-{$IFDEF ANDROID}
-        Show;
-{$ENDIF}
-{$IFDEF MSWINDOWS}
-        ShowModal;
-{$ENDIF}
-      end;
+    {$IFDEF ANDROID}
+    Show;
+    {$ENDIF}
+    {$IFDEF MSWINDOWS}
+    ShowModal;
+    {$ENDIF}
+    end;
     finally
-      FreeAndNil(FrmVehiclesadd);
+    FreeAndNil(FrmVehiclesadd);
     end;
 
-  end
-  else
-  begin
+    end
+    else
+    begin
     // Mmanage existing vehicles
   *)
-  end;
+end;
 
 procedure TFrmONG.SelectExistingVehicle;
 begin
@@ -149,40 +157,24 @@ begin
   // LoadDataForSelectedVehicle(SelectedVehicleID);
 end;
 
+procedure TFrmONG.SpeedButton1Click(Sender: TObject);
+begin
+  TbVehicle.IsSelected := true;
+  TbVehicle.Visible := true;
+  TbFormVehicle.Visible := false;
+end;
+
+procedure TFrmONG.FormActivate(Sender: TObject);
+begin
+  TbNewOli.IsSelected := true;
+  TbVehicle.Visible := false;
+  TbFormVehicle.Visible := false;
+end;
+
 procedure TFrmONG.FormCreate(Sender: TObject);
 begin
   EdtHiddenOilFillType.Text := 'oil change';
   EdtDateOilChange.Text := '';
-end;
-
-procedure TFrmONG.FormShow(Sender: TObject);
-var
-  VehicleQuery: TFDQuery;
-begin
-  // Create the query to obtain the vehicle data
-  VehicleQuery := DataModuleONG.GetVehicleData;
-
-  try
-    // Clear the ComboBox
-    ComboBoxVehicles.Items.Clear;
-
-    // Assign the ComboBoxVehiclesChange function to the OnChange event
-    ComboBoxVehicles.OnChange := ComboBoxVehiclesItemClick;
-
-    // Add the element to add a vehicle to the top of the list
-    ComboBoxVehicles.Items.Add('Add Vehicle');
-
-    // Fill the ComboBox with the vehicles
-    while not VehicleQuery.Eof do
-    begin
-      ComboBoxVehicles.Items.AddObject(VehicleQuery.FieldByName('Model')
-        .AsString, TObject(VehicleQuery.FieldByName('ID').AsInteger));
-      VehicleQuery.Next;
-    end;
-  finally
-    // Free
-    VehicleQuery.Free;
-  end;
 end;
 
 procedure TFrmONG.LbOdometerClick(Sender: TObject);
@@ -222,7 +214,7 @@ var
   Query: TFDQuery;
   Transaction: TFDTransaction;
 begin
-  Result := False; // Initialize the result as false by default
+  Result := false; // Initialize the result as false by default
 
   Query := TFDQuery.Create(nil);
   Transaction := TFDTransaction.Create(nil);
@@ -251,7 +243,7 @@ begin
 
       // Commit the transaction if everything was successful
       Transaction.Commit;
-      Result := True;
+      Result := true;
     except
       // If there was an error during the transaction, roll it back
       Transaction.Rollback;
@@ -261,6 +253,31 @@ begin
     Query.Free;
     Transaction.Free;
   end;
+end;
+
+procedure TFrmONG.SBtnCancelClick(Sender: TObject);
+begin
+  TbVehicle.Visible := false;
+  TbNewOli.Visible := true;
+  Tb.Visible := true;
+
+  TbNewOli.IsSelected := true;
+end;
+
+procedure TFrmONG.SBtnNewVehicleClick(Sender: TObject);
+begin
+  TbFormVehicle.IsSelected := true;
+  TbFormVehicle.Visible := true;
+  TbVehicle.Visible := false;
+end;
+
+procedure TFrmONG.SBtnVehicleClick(Sender: TObject);
+begin
+  TbVehicle.Visible := true;
+  TbNewOli.Visible := false;
+  Tb.Visible := false;
+
+  TbVehicle.IsSelected := true;
 end;
 
 end.
