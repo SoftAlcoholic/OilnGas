@@ -8,20 +8,22 @@ object FrmONG: TFrmONG
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignerMasterStyle = 0
   object TabControlMain: TTabControl
     Align = Client
     Size.Width = 425.000000000000000000
-    Size.Height = 588.000000000000000000
+    Size.Height = 555.000000000000000000
     Size.PlatformDefault = False
+    TabHeight = 49.000000000000000000
     TabIndex = 0
     TabOrder = 0
     TabPosition = Bottom
     Sizes = (
       425s
-      562s
+      506s
       425s
-      562s)
+      506s)
     object TabItemNewOil: TTabItem
       CustomIcon = <
         item
@@ -30,7 +32,7 @@ object FrmONG: TFrmONG
       StyledSettings = [Size, Style, FontColor]
       IsSelected = True
       Size.Width = 105.000000000000000000
-      Size.Height = 26.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
@@ -40,7 +42,7 @@ object FrmONG: TFrmONG
       object GridPanelLayout1: TGridPanelLayout
         Align = Client
         Size.Width = 425.000000000000000000
-        Size.Height = 514.000000000000000000
+        Size.Height = 458.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         ColumnCollection = <
@@ -103,6 +105,9 @@ object FrmONG: TFrmONG
           end
           item
             Value = 24.999973223670120000
+          end
+          item
+            SizeStyle = Auto
           end>
         object EdtOdometer: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -194,7 +199,7 @@ object FrmONG: TFrmONG
       end
       object GridPanelLayout2: TGridPanelLayout
         Align = Bottom
-        Position.Y = 514.000000000000000000
+        Position.Y = 458.000000000000000000
         Size.Width = 425.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
@@ -263,22 +268,40 @@ object FrmONG: TFrmONG
         end>
       IsSelected = False
       Size.Width = 69.000000000000000000
-      Size.Height = 26.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'TabItem1'
-      object ListView1: TListView
-        ItemAppearanceClassName = 'TListItemAppearance'
-        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
-        HeaderAppearanceClassName = 'TListHeaderObjects'
-        FooterAppearanceClassName = 'TListHeaderObjects'
+      ExplicitSize.cx = 69.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object ListWiewOilChanges: TListView
+        ItemAppearanceClassName = 'TCustomizeItemObjects'
+        ItemEditAppearanceClassName = 'TCustomizeItemObjects'
+        HeaderAppearanceClassName = 'TCustomizeItemObjects'
+        FooterAppearanceClassName = 'TCustomizeItemObjects'
+        EditMode = True
         Align = Client
         Size.Width = 425.000000000000000000
-        Size.Height = 562.000000000000000000
+        Size.Height = 506.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
+        ItemAppearance.ItemHeight = 1
+        ItemAppearance.ItemEditHeight = 1
+        ItemAppearance.HeaderHeight = 1
+        ItemAppearance.FooterHeight = 1
       end
+    end
+  end
+  object ComboBoxVehicles: TComboBox
+    Align = Top
+    Size.Width = 425.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object ListBoxItemAddVeh: TListBoxItem
+      TabOrder = 1
+      Text = 'Add a vehicle'
     end
   end
 end

@@ -1,0 +1,10 @@
+﻿[OilTable]
+Coordinates=10,10,58,159
+Visible=True
+
+[Sqlite_demoConnection]
+Coordinates=73,1,132,33
+
+[]
+Coordinates=224,1,82,33
+

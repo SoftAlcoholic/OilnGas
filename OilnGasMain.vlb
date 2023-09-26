@@ -8,7 +8,7 @@ Coordinates=326,188,115,51
 Coordinates=10,324,92,33
 
 [LbOdometer]
-Coordinates=127,10,75,51
+Coordinates=300,10,75,51
 
 [BtnFillLevel]
 Coordinates=99,256,72,51
@@ -47,12 +47,12 @@ Coordinates=336,256,88,33
 Coordinates=257,256,59,33
 
 [DataModuleONG.OilTable]
-Coordinates=230,10,139,159
-
-[ListView1]
-Coordinates=10,10,89,141
-Visible=True
+Coordinates=299,20,139,33
 
 []
-Coordinates=136,109,82,33
+Coordinates=150,10,126,177
+
+[ListWiewOilChanges]
+Coordinates=10,10,116,141
+Visible=True
 

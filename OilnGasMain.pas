@@ -10,7 +10,7 @@ uses
   FMX.DateTimeCtrls, FMX.ListView.Types, FMX.ListView.Appearances,
   FMX.ListView.Adapters.Base, System.Rtti, System.Bindings.Outputs,
   FMX.Bind.Editors, Data.Bind.EngExt, FMX.Bind.DBEngExt, Data.Bind.Components,
-  Data.Bind.DBScope, FMX.ListView;
+  Data.Bind.DBScope, FMX.ListView, FMX.ListBox;
 
 type
   TFrmONG = class(TForm)
@@ -30,16 +30,18 @@ type
     GridPanelLayout2: TGridPanelLayout;
     EdtHiddenOilFillType: TEdit;
     TabItem1: TTabItem;
-    ListView1: TListView;
+    ListWiewOilChanges: TListView;
+    ComboBoxVehicles: TComboBox;
+    ListBoxItemAddVeh: TListBoxItem;
     procedure BtnFillLevelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BtnSaveOilClick(Sender: TObject);
-
+    procedure FormShow(Sender: TObject);
   private
     procedure OilFormNameLoader;
     function SaveOilChangeData(Distance: Double; ChangeDate: TDate;
-      Cost, OilQuantity: Double; FillType: string): Boolean;
-    { Private declarations }
+      Cost: Double; OilQuantity: Double; FillType: string): Boolean;
+    procedure ComboBoxVehiclesItemClick(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -51,7 +53,7 @@ implementation
 
 {$R *.fmx}
 
-uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param;
+uses DmONG, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FrmAddvehicles;
 
 procedure TFrmONG.BtnFillLevelClick(Sender: TObject);
 begin
@@ -66,7 +68,7 @@ var
   OilQuantity: Double;
   FillType: string;
 begin
-  // Retrieve input values from form's controls )
+  // Retrieve input values from form's controls
   Distance := StrToFloat(EdtOdometer.Text);
   ChangeDate := StrToDate(EdtDateOilChange.Text);
   Cost := StrToFloat(EdtCost.Text);
@@ -79,14 +81,14 @@ begin
     // If the save was successful, display a success message
     if FillType = 'oil change' then
       ShowMessage('Oil change successfully saved. Odometer: ' +
-        FloatToStr(Distance) + ' cost per qt: ' + FloatToStr(Cost) +
-        ' oil change date: ' + DateToStr(ChangeDate) + ' quantity: ' +
-        FloatToStr(OilQuantity) + 'Qt.')
+        FloatToStr(Distance) + ', cost per qt: ' + FloatToStr(Cost) +
+        ', oil change date: ' + DateToStr(ChangeDate) + ', quantity: ' +
+        FloatToStr(OilQuantity) + ' Qt.')
     else
       ShowMessage('Oil refill successfully saved. Odometer: ' +
-        FloatToStr(Distance) + ' cost per qt: ' + FloatToStr(Cost) +
-        ' oil change date: ' + DateToStr(ChangeDate) + ' quantity: ' +
-        FloatToStr(OilQuantity) + 'Qt.');
+        FloatToStr(Distance) + ', cost per qt: ' + FloatToStr(Cost) +
+        ', oil change date: ' + DateToStr(ChangeDate) + ', quantity: ' +
+        FloatToStr(OilQuantity) + ' Qt.');
   end
   else
   begin
@@ -96,10 +98,63 @@ begin
   end;
 end;
 
+procedure TFrmONG.ComboBoxVehiclesItemClick(Sender: TObject);
+begin
+  // Check if the "Add Vehicle" item was clicked
+  if ComboBoxVehicles.ItemIndex = 0 then
+  begin
+    // Open the form to add a vehicle
+    with TfrmAddVehicle.Create(nil) do
+      try
+        // Display the modal form
+        if ShowModal = mrOK then
+        begin
+          // If the add vehicle form was completed successfully,
+        end;
+      finally
+        Free;
+      end;
+  end
+  else
+  begin
+    // Mmanage existing vehicles
+  end;
+end;
+
 procedure TFrmONG.FormCreate(Sender: TObject);
 begin
   EdtHiddenOilFillType.Text := 'oil change';
   EdtDateOilChange.Text := '';
+end;
+
+procedure TFrmONG.FormShow(Sender: TObject);
+var
+  VehicleQuery: TFDQuery;
+begin
+  // Create the query to obtain the vehicle data
+  VehicleQuery := DataModuleONG.GetVehicleData;
+
+  try
+    // Clear the ComboBox
+    ComboBoxVehicles.Items.Clear;
+
+    // Assign the ComboBoxVehiclesChange function to the OnChange event
+    ComboBoxVehicles.OnChange := ComboBoxVehiclesItemClick;
+
+    // Add the element to add a vehicle to the top of the list
+    ComboBoxVehicles.Items.Add('Add Vehicle');
+
+    // Fill the ComboBox with the vehicles
+    while not VehicleQuery.Eof do
+    begin
+      ComboBoxVehicles.Items.AddObject(VehicleQuery.FieldByName('Model')
+        .AsString, TObject(VehicleQuery.FieldByName('ID').AsInteger));
+      VehicleQuery.Next;
+    end;
+  finally
+    // Free
+    VehicleQuery.Free;
+  end;
 end;
 
 procedure TFrmONG.OilFormNameLoader();
@@ -128,8 +183,8 @@ begin
   end;
 end;
 
-function TFrmONG.SaveOilChangeData(Distance: Double; ChangeDate: TDate; Cost: Double;
-  OilQuantity: Double; FillType: string): Boolean;
+function TFrmONG.SaveOilChangeData(Distance: Double; ChangeDate: TDate;
+  Cost: Double; OilQuantity: Double; FillType: string): Boolean;
 var
   Query: TFDQuery;
   Transaction: TFDTransaction;
