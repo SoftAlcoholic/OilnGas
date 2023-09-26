@@ -4,7 +4,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   OilnGasMain in 'OilnGasMain.pas' {FrmONG},
-  DmONG in 'DmONG.pas' {DataModuleONG: TDataModule};
+  DmONG in 'DmONG.pas' {DataModuleONG: TDataModule},
+  FrmAddvehicles in 'FrmAddvehicles.pas' {FrmAddVehicle: TFrame};
 
 {$R *.res}
 

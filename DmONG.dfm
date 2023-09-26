@@ -19,6 +19,13 @@ object DataModuleONG: TDataModuleONG
     Connected = True
     LoginPrompt = False
     Left = 9
-    Top = 10
+    Top = 18
+  end
+  object FDQuery1: TFDQuery
+    Connection = Sqlite_demoConnection
+    SQL.Strings = (
+      'select * from vehicles')
+    Left = 16
+    Top = 112
   end
 end

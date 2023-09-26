@@ -15,9 +15,11 @@ type
   TDataModuleONG = class(TDataModule)
     OilTable: TFDQuery;
     Sqlite_demoConnection: TFDConnection;
+    FDQuery1: TFDQuery;
   private
     { Private declarations }
   public
+    function GetVehicleData: TFDQuery;
     { Public declarations }
   end;
 
@@ -29,5 +31,13 @@ implementation
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
 {$R *.dfm}
+
+function TDataModuleONG.GetVehicleData: TFDQuery;
+begin
+  Result := TFDQuery.Create(nil);
+  Result.Connection := Sqlite_demoConnection;
+  Result.SQL.Text := 'SELECT * FROM Vehicles';
+  Result.Open;
+end;
 
 end.
