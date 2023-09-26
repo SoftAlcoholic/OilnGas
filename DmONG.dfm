@@ -16,7 +16,6 @@ object DataModuleONG: TDataModuleONG
       'DriverID=SQLite')
     FetchOptions.AssignedValues = [evAutoClose]
     FetchOptions.AutoClose = False
-    Connected = True
     LoginPrompt = False
     Left = 9
     Top = 18
